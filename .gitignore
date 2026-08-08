@@ -1,0 +1,18 @@
+# Visual Studio 用户设置
+.vs/
+
+# 构建产物（编译中间物，会自动重建）
+bin/
+obj/
+
+# protobuf 生成代码（改了协议跑 Allproto\gen.bat 重新生成，不用提交）
+Generated/
+
+# IDE / 编辑器设置
+.vscode/
+.idea/
+
+# 其他杂项
+*.user
+*.suo
+*.log
