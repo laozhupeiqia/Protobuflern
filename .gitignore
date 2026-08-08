@@ -5,8 +5,7 @@
 bin/
 obj/
 
-# protobuf 生成代码（改了协议跑 Allproto\gen.bat 重新生成，不用提交）
-Generated/
+# protobuf 生成代码也提交（方便开箱即用）；改了协议跑 Allproto\gen.bat 后记得重新提交
 
 # IDE / 编辑器设置
 .vscode/
