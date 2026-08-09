@@ -1,21 +1,38 @@
 using Protobuflern.Demo;
+using Protobuflern.Database;
 using ServerFramework.Dispatch;
 using ServerFramework.Session;
 
 namespace Protobuflern.Handles
 {
-    // 登录业务：收到登录请求 → 标记已登录 → 回"登录成功"
+    // 登录业务：校验账号密码 → 成功标记已登录并回玩家状态，失败回错误码
     internal class LoginHandler : MessageHandler<Player>
     {
         public override void Handle(ClientSession session, Player player)
         {
-            // 标记已登录并绑定玩家标识：登录成功之前，动作类消息一律被自己的门禁挡下
-            session.IsAuthenticated = true;
-            session.PlayerId = player.Name;
-            Console.WriteLine($"[{session}] {player.Name} 登录成功");
+            PlayerState? state = PlayerRepository.Login(int.Parse(player.Id), player.Paswd);
 
-            // 回登录成功（类型 0x81），客户端收到这个才算是"进了游戏"
-            session.Reply((int)PacketType.LoginOk, $"登录成功，欢迎 {player.Name}");
+            if (state != null)
+            {
+                session.IsAuthenticated = true;
+                session.PlayerId = state.Name;
+                Console.WriteLine($"[{session}] {state.Name} 登录成功");
+
+                session.Reply((int)PacketType.ServerReply, new MsgResult
+                {
+                    Code = 0,
+                    Message = $"登录成功，欢迎 {state.Name}",
+                    Player = state
+                });
+            }
+            else
+            {
+                session.Reply((int)PacketType.ServerReply, new MsgResult
+                {
+                    Code = 1,
+                    Message = "登录失败，账号或密码错误"
+                });
+            }
         }
     }
 }

@@ -14,6 +14,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="MySqlConnector" Version="2.6.1" />
     <!-- 生成类（Protos\Generated\*.cs）由默认 **/*.cs 通配自动编译，不用手动加 Compile -->
   </ItemGroup>
 

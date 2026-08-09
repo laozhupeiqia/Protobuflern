@@ -24,16 +24,17 @@ namespace Protobuflern.Demo {
     static CommonReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cgxjb21tb24ucHJvdG8SBGRlbW8iTQoJTXNnUmVzdWx0EgwKBGNvZGUYASAB",
-            "KAUSDwoHbWVzc2FnZRgCIAEoCRIOCgZkZXRhaWwYAyABKAkSEQoJdGltZXN0",
-            "YW1wGAQgASgDKn0KClBhY2tldFR5cGUSCQoFSEVMTE8QABILCgdBQ1RJT04x",
-            "EAESCwoHQUNUSU9OMhACEgkKBUxPR0lOEAMSEgoOVEVTVF9CUk9BRENBU1QQ",
-            "BBIRCgxTRVJWRVJfUkVQTFkQgAESDQoITE9HSU5fT0sQgQESCQoETUFJTBCC",
-            "AUIUqgIRUHJvdG9idWZsZXJuLkRlbW9iBnByb3RvMw=="));
+            "Cgxjb21tb24ucHJvdG8SBGRlbW8aDHBsYXllci5wcm90byJwCglNc2dSZXN1",
+            "bHQSDAoEY29kZRgBIAEoBRIPCgdtZXNzYWdlGAIgASgJEg4KBmRldGFpbBgD",
+            "IAEoCRIRCgl0aW1lc3RhbXAYBCABKAMSIQoGcGxheWVyGAUgASgLMhEuZGVt",
+            "by5QbGF5ZXJTdGF0ZSp8CgpQYWNrZXRUeXBlEgkKBUhFTExPEAASCwoHQUNU",
+            "SU9OMRABEgsKB0FDVElPTjIQAhIJCgVMT0dJThADEhIKDlRFU1RfQlJPQURD",
+            "QVNUEAQSDAoIUkVHSVNURVIQBRIRCgxTRVJWRVJfUkVQTFkQgAESCQoETUFJ",
+            "TBCCAUIUqgIRUHJvdG9idWZsZXJuLkRlbW9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::Protobuflern.Demo.PlayerReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuflern.Demo.PacketType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuflern.Demo.MsgResult), global::Protobuflern.Demo.MsgResult.Parser, new[]{ "Code", "Message", "Detail", "Timestamp" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuflern.Demo.MsgResult), global::Protobuflern.Demo.MsgResult.Parser, new[]{ "Code", "Message", "Detail", "Timestamp", "Player" }, null, null, null, null)
           }));
     }
     #endregion
@@ -67,13 +68,13 @@ namespace Protobuflern.Demo {
     /// </summary>
     [pbr::OriginalName("TEST_BROADCAST")] TestBroadcast = 4,
     /// <summary>
-    /// 服务器 → 客户端：普通回复
+    /// 客户端 → 服务器：注册请求
+    /// </summary>
+    [pbr::OriginalName("REGISTER")] Register = 5,
+    /// <summary>
+    /// 服务器 → 客户端：普通回复（登录成功/失败也走这里，code 区分）
     /// </summary>
     [pbr::OriginalName("SERVER_REPLY")] ServerReply = 128,
-    /// <summary>
-    /// 服务器 → 客户端：登录成功
-    /// </summary>
-    [pbr::OriginalName("LOGIN_OK")] LoginOk = 129,
     /// <summary>
     /// 服务器 → 客户端：邮件内容
     /// </summary>
@@ -127,6 +128,7 @@ namespace Protobuflern.Demo {
       message_ = other.message_;
       detail_ = other.detail_;
       timestamp_ = other.timestamp_;
+      player_ = other.player_ != null ? other.player_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -196,6 +198,21 @@ namespace Protobuflern.Demo {
       }
     }
 
+    /// <summary>Field number for the "player" field.</summary>
+    public const int PlayerFieldNumber = 5;
+    private global::Protobuflern.Demo.PlayerState player_;
+    /// <summary>
+    /// 可选：登录成功时携带玩家当前状态（昵称/分数）
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Protobuflern.Demo.PlayerState Player {
+      get { return player_; }
+      set {
+        player_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override bool Equals(object other) {
@@ -215,6 +232,7 @@ namespace Protobuflern.Demo {
       if (Message != other.Message) return false;
       if (Detail != other.Detail) return false;
       if (Timestamp != other.Timestamp) return false;
+      if (!object.Equals(Player, other.Player)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -226,6 +244,7 @@ namespace Protobuflern.Demo {
       if (Message.Length != 0) hash ^= Message.GetHashCode();
       if (Detail.Length != 0) hash ^= Detail.GetHashCode();
       if (Timestamp != 0L) hash ^= Timestamp.GetHashCode();
+      if (player_ != null) hash ^= Player.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -260,6 +279,10 @@ namespace Protobuflern.Demo {
         output.WriteRawTag(32);
         output.WriteInt64(Timestamp);
       }
+      if (player_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(Player);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -286,6 +309,10 @@ namespace Protobuflern.Demo {
         output.WriteRawTag(32);
         output.WriteInt64(Timestamp);
       }
+      if (player_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(Player);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -307,6 +334,9 @@ namespace Protobuflern.Demo {
       }
       if (Timestamp != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(Timestamp);
+      }
+      if (player_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Player);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -331,6 +361,12 @@ namespace Protobuflern.Demo {
       }
       if (other.Timestamp != 0L) {
         Timestamp = other.Timestamp;
+      }
+      if (other.player_ != null) {
+        if (player_ == null) {
+          Player = new global::Protobuflern.Demo.PlayerState();
+        }
+        Player.MergeFrom(other.Player);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -367,6 +403,13 @@ namespace Protobuflern.Demo {
             Timestamp = input.ReadInt64();
             break;
           }
+          case 42: {
+            if (player_ == null) {
+              Player = new global::Protobuflern.Demo.PlayerState();
+            }
+            input.ReadMessage(Player);
+            break;
+          }
         }
       }
     #endif
@@ -400,6 +443,13 @@ namespace Protobuflern.Demo {
           }
           case 32: {
             Timestamp = input.ReadInt64();
+            break;
+          }
+          case 42: {
+            if (player_ == null) {
+              Player = new global::Protobuflern.Demo.PlayerState();
+            }
+            input.ReadMessage(Player);
             break;
           }
         }

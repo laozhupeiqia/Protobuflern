@@ -11,7 +11,7 @@ namespace Protobuflern.Handles
         public override void Handle(ClientSession session, Player message)
         {
             Console.WriteLine($"[{session}] 收到连接测试包，回复确认");
-            session.Reply((int)PacketType.ServerReply, "恭喜你，当你收到这条消息的时候说明服务器连接成功了");
+            session.Reply((int)PacketType.ServerReply, new MsgResult { Code = 0, Message = "恭喜你，当你收到这条消息的时候说明服务器连接成功了" });
         }
     }
 }

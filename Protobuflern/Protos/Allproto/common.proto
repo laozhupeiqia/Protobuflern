@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "player.proto"; // MsgResult 引用 PlayerState
+
 // 与 player.proto 同包，生成的 C# 类共享同一个命名空间
 package demo;
 
@@ -13,6 +15,7 @@ message MsgResult {
   string message   = 2; // 人类可读文本：服务器回复的提示语、或上报时的简述
   string detail    = 3; // 故障详情：报错信息、上下文等，故障上报时填
   int64  timestamp = 4; // Unix 秒，故障发生/上报时间
+  PlayerState player = 5; // 可选：登录成功时携带玩家当前状态（昵称/分数）
 }
 
 // 包类型：编号按方向分段（proto3 规定第一个枚举值必须为 0，正好是 HELLO）
@@ -24,7 +27,7 @@ enum PacketType {
   ACTION2        = 0x02; // 客户端 → 服务器：玩家动作2
   LOGIN          = 0x03; // 客户端 → 服务器：登录请求
   TEST_BROADCAST = 0x04; // 客户端 → 服务器：测试用，请求一次全服广播
-  SERVER_REPLY   = 0x80; // 服务器 → 客户端：普通回复
-  LOGIN_OK       = 0x81; // 服务器 → 客户端：登录成功
+  REGISTER       = 0x05; // 客户端 → 服务器：注册请求
+  SERVER_REPLY   = 0x80; // 服务器 → 客户端：普通回复（登录成功/失败也走这里，code 区分）
   MAIL           = 0x82; // 服务器 → 客户端：邮件内容
 }

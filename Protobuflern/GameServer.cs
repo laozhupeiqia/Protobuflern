@@ -32,6 +32,7 @@ namespace Protobuflern
         private void RegisterHandlers(MessageDispatcher dispatcher)
         {
             dispatcher.Register((int)PacketType.Hello, new HelloHandler());
+            dispatcher.Register((int)PacketType.Register, new RegisterHandler());
             dispatcher.Register((int)PacketType.Login, new LoginHandler());
             dispatcher.Register((int)PacketType.Action1, new Handle1());
             dispatcher.Register((int)PacketType.Action2, new Handle2());

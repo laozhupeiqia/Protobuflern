@@ -11,7 +11,15 @@ message Player {
   string name = 1;   // 名字
   int32  age  = 2;   // 年龄
   Gender gender = 3; // 性别
-  string loveFood = 4;
+  string loveFood = 4;//喜欢的事物
+  string id = 5;//账号
+  string paswd = 6;//密码
+}
+
+// 服务器下发的玩家状态（登录成功时随 MsgResult 附带），不含密码等敏感字段
+message PlayerState {
+  string name  = 1; // 玩家昵称
+  int32  score = 2; // 当前分数
 }
 
 // 性别枚举

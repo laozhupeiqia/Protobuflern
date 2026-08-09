@@ -11,11 +11,12 @@ namespace Protobuflern.Handles
         {
             if (!session.IsAuthenticated)
             {
-                session.Reply((int)PacketType.ServerReply, "请先登录");
+                session.Reply((int)PacketType.ServerReply, new MsgResult { Code = 1, Message = "请先登录" });
                 return;
             }
 
             Console.WriteLine($"[{session}] {player.Name} 做了事情2");
+            session.Reply((int)PacketType.ServerReply, new MsgResult { Code = 0, Message = "操作完成" });
         }
     }
 }

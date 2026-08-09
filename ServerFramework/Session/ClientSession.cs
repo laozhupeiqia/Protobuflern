@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text;
+using Google.Protobuf;
 using ServerFramework.Network;
 
 namespace ServerFramework.Session;
@@ -34,6 +35,10 @@ public sealed class ClientSession
     // 发一句 UTF8 文本的便捷方法
     public void Reply(int messageId, string text)
         => Send(messageId, Encoding.UTF8.GetBytes(text));
+
+    // 发一条 protobuf 消息的便捷方法：body 自动序列化
+    public void Reply(int messageId, IMessage msg)
+        => Send(messageId, msg.ToByteArray());
 
     public override string ToString() => $"{RemoteEndPoint}(会话{SessionId})";
 }
