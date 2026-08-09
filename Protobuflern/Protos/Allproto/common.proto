@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+// 与 player.proto 同包，生成的 C# 类共享同一个命名空间
+package demo;
+
+option csharp_namespace = "Protobuflern.Demo";
+
+// 通用结果/故障上报消息：
+// 服务器回给客户端的处理结果（code=0 成功，非 0 失败/错误码）
+// 客户端出故障时也用这条消息上报：code 填故障码，detail 填详情
+message MsgResult {
+  int32  code      = 1; // 0=成功；非 0=错误码/故障码，具体文本由客户端自己映射
+  string message   = 2; // 人类可读文本：服务器回复的提示语、或上报时的简述
+  string detail    = 3; // 故障详情：报错信息、上下文等，故障上报时填
+  int64  timestamp = 4; // Unix 秒，故障发生/上报时间
+}
+
+// 包类型：编号按方向分段（proto3 规定第一个枚举值必须为 0，正好是 HELLO）
+// 0x00-0x7F 客户端 → 服务器（请求）；0x80-0xFF 服务器 → 客户端（回复/推送）
+// 看首数字就能判断方向：0-7 客户端发、8-F 服务器发
+enum PacketType {
+  HELLO          = 0x00; // 客户端 → 服务器：连接测试
+  ACTION1        = 0x01; // 客户端 → 服务器：玩家动作1
+  ACTION2        = 0x02; // 客户端 → 服务器：玩家动作2
+  LOGIN          = 0x03; // 客户端 → 服务器：登录请求
+  TEST_BROADCAST = 0x04; // 客户端 → 服务器：测试用，请求一次全服广播
+  SERVER_REPLY   = 0x80; // 服务器 → 客户端：普通回复
+  LOGIN_OK       = 0x81; // 服务器 → 客户端：登录成功
+  MAIL           = 0x82; // 服务器 → 客户端：邮件内容
+}

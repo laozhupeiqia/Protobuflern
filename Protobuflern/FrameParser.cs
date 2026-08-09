@@ -1,3 +1,5 @@
+using Protobuflern.Demo;
+using Protobuflern.Handles;
 using System.Net;
 
 namespace Protobuflern
@@ -24,28 +26,31 @@ namespace Protobuflern
                 return;
             }
 
-            // 3. 组装成包对象，按类型分发——body 怎么解析由各处理器自己决定
+            // 3. 组装成包对象，再按类型分发——body 怎么解析由各处理器自己决定
             var pkt = new GamePacket
             {
                 Remote = remote,
-                Type = packet[2],
+                Type = (PacketType)packet[2],
                 Buffer = packet,
                 Offset = 5,
                 Count = bodyLen,
             };
 
-            switch (pkt.Type)
+            // 登录门禁：动作类消息必须先登录（登录包自己不受限）
+            if ((pkt.Type == PacketType.Action1 || pkt.Type == PacketType.Action2)
+                && !RequireLoggedIn(pkt))
             {
-                case PacketTypes.Login: LoginHandler.HandleLogin(pkt); break;
-                case PacketTypes.Action1:
-                    if (RequireLoggedIn(pkt)) Handle1.HandlePlayerAction1(pkt);
-                    break;
-                case PacketTypes.Action2:
-                    if (RequireLoggedIn(pkt)) Handle2.HandlePlayerAction2(pkt);
-                    break;
-                default:
-                    Console.WriteLine($"[{remote}] 未知类型 {pkt.Type}，丢弃");
-                    break;
+                return;
+            }
+
+            // 按类型从路由表找处理器；没注册的类型打日志丢弃
+            if (HandleManager.TryGetHandler(pkt.Type, out var handler))
+            {
+                handler.Handle(pkt);
+            }
+            else
+            {
+                Console.WriteLine($"[{remote}] 未知类型 {pkt.Type:X2}，丢弃");
             }
         }
 
@@ -54,7 +59,7 @@ namespace Protobuflern
         {
             if (ClientManager.IsLoggedIn(pkt.Remote))
                 return true;
-            Responder.Reply(pkt, PacketTypes.ServerReply, "请先登录");
+            Sender.Reply(pkt, PacketType.ServerReply, "请先登录");
             return false;
         }
     }

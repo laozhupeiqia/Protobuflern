@@ -1,3 +1,4 @@
+using Protobuflern.Handles;
 using System.Net;
 using System.Net.Sockets;
 
@@ -24,14 +25,14 @@ namespace Protobuflern
                     int received = udp.Client.ReceiveFrom(ReceiveBuffer, ref remoteEP);
                     IPEndPoint client = (IPEndPoint)remoteEP;
 
-                    // 2. 登记客户端：新加入 / 刷新活跃时间
+                    // 2. 登记客户端：新加入
                     ClientManager.AddOrTouch(client);
 
                     // 3. 解析并分发
                     FrameParser.Process(client, ReceiveBuffer, received);
 
                     // 4. 广播给其他客户端
-                    Broadcast.ToAll(udp.Client, client, ReceiveBuffer, received);
+                    Sender.SendToAllExcept(client, ReceiveBuffer, received);
 
                     // 5. 到点自动清理超时客户端
                     ClientManager.MaybeCleanup();
