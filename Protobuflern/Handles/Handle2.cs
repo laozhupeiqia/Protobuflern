@@ -1,15 +1,21 @@
 using Protobuflern.Demo;
-using Protobuflern.Interfaces;
+using ServerFramework.Dispatch;
+using ServerFramework.Session;
 
 namespace Protobuflern.Handles
 {
-    internal class Handle2: IHandle
+    internal class Handle2 : MessageHandler<Player>
     {
-        // 类型 2 的业务：假如 body 不是 Player、而是别的消息，你只在这里解析自己的类型
-        public void Handle(GamePacket pkt)
+        // 类型 2 的业务：body 反序列化已经由 MessageHandler<Player> 基类完成
+        public override void Handle(ClientSession session, Player player)
         {
-            var player = Player.Parser.ParseFrom(pkt.Buffer, pkt.Offset, pkt.Count);
-            Console.WriteLine($"[{pkt.Remote}] {player.Name} 做了事情2");
+            if (!session.IsAuthenticated)
+            {
+                session.Reply((int)PacketType.ServerReply, "请先登录");
+                return;
+            }
+
+            Console.WriteLine($"[{session}] {player.Name} 做了事情2");
         }
     }
 }
