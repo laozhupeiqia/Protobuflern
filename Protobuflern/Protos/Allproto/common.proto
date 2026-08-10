@@ -18,6 +18,37 @@ message MsgResult {
   PlayerState player = 5; // 可选：登录成功时携带玩家当前状态（昵称/分数）
 }
 
+// 心跳：空消息，客户端周期性发送，服务器收到即刷新该会话活跃时间，不回包
+message Heartbeat {}
+
+// 位置同步：本机移动时上报，服务器广播给其他玩家（playerId 由服务器用登录账号权威填充）
+message MoveMsg {
+  string playerId = 1; // 玩家账号
+  float  x = 2;
+  float  y = 3;
+  float  z = 4;
+  float  yaw = 5;      // 水平朝向（度）
+}
+
+// 操作同步：本机操作（开火等）上报，服务器广播给其他玩家
+message ActionMsg {
+  string playerId = 1; // 玩家账号
+  int32  opType  = 2;  // 操作类型：1=开火
+  float  yaw     = 3;
+}
+
+// 加入同步：服务器广播给在场的人（新人第一个位置包到达时触发），接收方创建他的远端角色
+// playerId 在 position.playerId 里（由服务器用登录账号权威填充）
+message PlayerJoinMsg {
+  PlayerState player   = 1; // 角色数据（昵称/分数，以后加等级/皮肤/宠物都往这里扩）
+  MoveMsg     position = 2; // 加入时的位置
+}
+
+// 在线快照：服务器在登录成功时发给新登录的人，让他立刻看到已经在场的玩家
+message PlayerListMsg {
+  repeated PlayerJoinMsg players = 1;
+}
+
 // 包类型：编号按方向分段（proto3 规定第一个枚举值必须为 0，正好是 HELLO）
 // 0x00-0x7F 客户端 → 服务器（请求）；0x80-0xFF 服务器 → 客户端（回复/推送）
 // 看首数字就能判断方向：0-7 客户端发、8-F 服务器发
@@ -28,6 +59,13 @@ enum PacketType {
   LOGIN          = 0x03; // 客户端 → 服务器：登录请求
   TEST_BROADCAST = 0x04; // 客户端 → 服务器：测试用，请求一次全服广播
   REGISTER       = 0x05; // 客户端 → 服务器：注册请求
+  HEARTBEAT      = 0x06; // 客户端 → 服务器：心跳保活（空消息）
+  MOVE           = 0x07; // 客户端 → 服务器：本机位置上报（MoveMsg）
+  ACTION         = 0x08; // 客户端 → 服务器：本机操作上报（ActionMsg，如开火）
   SERVER_REPLY   = 0x80; // 服务器 → 客户端：普通回复（登录成功/失败也走这里，code 区分）
   MAIL           = 0x82; // 服务器 → 客户端：邮件内容
+  SYNC_MOVE      = 0x83; // 服务器 → 客户端：远端玩家位置广播（MoveMsg）
+  SYNC_ACTION    = 0x84; // 服务器 → 客户端：远端玩家操作广播（ActionMsg）
+  PLAYER_JOINED  = 0x85; // 服务器 → 客户端：有新人加入（PlayerJoinMsg）
+  PLAYER_LIST    = 0x86; // 服务器 → 客户端：在线玩家快照（PlayerListMsg，登录时发给新人）
 }

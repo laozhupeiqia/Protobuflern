@@ -4,8 +4,9 @@ using ServerFramework.Session;
 
 namespace ServerFramework.Network;
 
-// 服务器主循环：收包 -> 登记/刷新会话 -> 解析帧 -> 分发 -> 定时清理
+// 服务器主循环：收包 -> 登记/刷新会话 -> 解析帧 -> 分发
 // 只做框架层的编排，具体包怎么处理由游戏层 Handler 决定
+// 不做定时踢人：会话不会因为沉默被清掉（挂机/网络波动不该掉线），账号复用由登录时判定
 public sealed class NetworkServer
 {
     private readonly NetworkTransport _transport;
@@ -35,9 +36,6 @@ public sealed class NetworkServer
                 // 3. 解析并分发（坏帧直接忽略，业务交给 Handler）
                 if (FrameParser.Parse(_receiveBuffer, received) is { } msg)
                     _dispatcher.Dispatch(session, msg);
-
-                // 4. 到点自动清理超时客户端
-                _sessions.MaybeCleanup();
             }
             catch (SocketException ex)
             {
