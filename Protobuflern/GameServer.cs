@@ -35,8 +35,9 @@ namespace Protobuflern
             dispatcher.Register((int)PacketType.Register, new RegisterHandler());
             dispatcher.Register((int)PacketType.Login, new LoginHandler());
             dispatcher.Register((int)PacketType.Heartbeat, new HeartbeatHandler());
-            dispatcher.Register((int)PacketType.Move, new MoveHandler());
-            dispatcher.Register((int)PacketType.Action, new ActionHandler());
+            dispatcher.Register((int)PacketType.PlayerFrame, new PlayerFrameHandler());
+            dispatcher.Register((int)PacketType.KillEvent, new KillEventHandler());
+            dispatcher.Register((int)PacketType.DropEvent, new DropEventHandler());
             dispatcher.Register((int)PacketType.Action1, new Handle1());
             dispatcher.Register((int)PacketType.Action2, new Handle2());
             dispatcher.Register((int)PacketType.TestBroadcast, new BroadcastTestHandler());

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+import "player.proto"; // PlayerJoinMsg 引用 PlayerState
+
+package demo;
+
+option csharp_namespace = "Protobuflern.Demo";
+
+// 实时联机同步（高频、小包、结构固定）。
+// 每个玩家上报自己的状态帧，服务器广播给其他玩家。本文件只放"实时状态/在场玩家"相关消息。
+
+// 动作标志：加新动作就在这里加一个枚举值
+enum ActionFlag {
+  ACTION_NONE = 0; // 无动作（proto3 规定第一个枚举值必须为 0）
+  FIRE        = 1; // 开火
+}
+
+// 一个玩家此刻的实时状态帧。playerId 是"主体（谁的）"，其余是状态内容。
+// 动作只是"当前在做什么"的状态标志，不需要各自带参数，所以不用 oneof。
+// 服务器收到后用登录账号权威填充 playerId，再广播给其他玩家（排除发送者）。
+message PlayerFrame {
+  string     playerId = 1; // 玩家账号（主体，服务器权威填充）
+  float      x = 2;        // 位置
+  float      y = 3;
+  float      z = 4;
+  float      yaw = 5;      // 水平朝向（度）
+  ActionFlag action = 6;   // 当前动作标志：ACTION_NONE=无、FIRE=开火
+}
+
+// 加入同步：服务器广播给在场的人（新人第一个状态包到达时触发），接收方创建他的远端角色
+message PlayerJoinMsg {
+  PlayerState player = 1; // 角色数据（昵称/分数，以后加等级/皮肤/宠物都往这里扩）
+  PlayerFrame frame   = 2; // 加入时的实时状态（位置/朝向/动作）
+}
+
+// 在线快照：服务器在登录成功时发给新登录的人，让他立刻看到已经在场的玩家
+message PlayerListMsg {
+  repeated PlayerJoinMsg players = 1;
+}

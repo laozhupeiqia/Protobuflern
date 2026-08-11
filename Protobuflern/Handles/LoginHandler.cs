@@ -64,7 +64,7 @@ namespace Protobuflern.Handles
                 });
 
                 // 在线快照（PLAYER_LIST）不在登录时发——那时客户端正好在切场景，角色会建在登录场景里被吞掉。
-                // 改成客户端游戏场景加载完成后、第一次上报位置时再发（见 MoveHandler）
+                // 改成客户端游戏场景加载完成后、第一次上报位置时再发（见 PlayerFrameHandler）
             }
             else
             {

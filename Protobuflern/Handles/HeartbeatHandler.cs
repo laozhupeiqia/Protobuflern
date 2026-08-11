@@ -13,9 +13,9 @@ namespace Protobuflern.Handles
         public override void Handle(ClientSession session, Heartbeat heartbeat)
         {
             if (session.IsAuthenticated && session.PlayerId != null &&
-                PlayerRegistry.TryGetPosition(session.PlayerId, out MoveMsg pos))
+                PlayerRegistry.TryGetPosition(session.PlayerId, out PlayerFrame pos))
             {
-                SessionManager.Instance.Broadcast(session, (int)PacketType.SyncMove, pos.ToByteArray());
+                SessionManager.Instance.Broadcast(session, (int)PacketType.SyncPlayerFrame, pos.ToByteArray());
             }
         }
     }

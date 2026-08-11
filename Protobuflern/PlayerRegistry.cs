@@ -8,7 +8,7 @@ namespace Protobuflern
     internal static class PlayerRegistry
     {
         private static readonly Dictionary<string, PlayerState> _states = new();
-        private static readonly Dictionary<string, MoveMsg> _positions = new();
+        private static readonly Dictionary<string, PlayerFrame> _positions = new();
 
         // 登录成功时登记角色数据（账号已绑定的会话、重连接管时都会走到）
         public static void Register(string account, PlayerState state)
@@ -22,12 +22,12 @@ namespace Protobuflern
         // 该账号是否还没发过位置（第一次位置包触发"加入"广播）
         public static bool IsFirstPosition(string account) => !_positions.ContainsKey(account);
 
-        public static void SetPosition(string account, MoveMsg pos)
+        public static void SetPosition(string account, PlayerFrame pos)
         {
             _positions[account] = pos;
         }
 
-        public static bool TryGetPosition(string account, out MoveMsg pos)
+        public static bool TryGetPosition(string account, out PlayerFrame pos)
             => _positions.TryGetValue(account, out pos!);
 
         // 遍历全部在线角色数据（组快照用）
@@ -41,8 +41,8 @@ namespace Protobuflern
             foreach (KeyValuePair<string, PlayerState> kv in _states)
             {
                 if (kv.Key == selfAccount) continue;
-                if (!TryGetPosition(kv.Key, out MoveMsg pos)) continue;
-                list.Players.Add(new PlayerJoinMsg { Player = kv.Value, Position = pos });
+                if (!TryGetPosition(kv.Key, out PlayerFrame pos)) continue;
+                list.Players.Add(new PlayerJoinMsg { Player = kv.Value, Frame = pos });
             }
             return list;
         }

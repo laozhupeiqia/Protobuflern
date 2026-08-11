@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package demo;
+
+option csharp_namespace = "Protobuflern.Demo";
+
+// 事件/通知（低频）。标准做法：每种事件独立 message + 独立 MessageId + 独立 Handler（一包一事件）。
+// 加事件 = 新增一个 message + 一个 MessageId + 一个 Handler，不动旧事件。
+// 流程：客户端上报 → 服务器用登录账号权威填充发起者字段 → 广播给其他玩家（排除发送者）。
+
+message KillEvent {
+  string killerId = 1; // 凶手（玩家账号，服务器权威填充）
+  string victimId = 2; // 死者（玩家账号或怪物 id）
+  int32  reward   = 3; // 奖励分数
+}
+
+message DropEvent {
+  string playerId = 1; // 谁获得了（服务器权威填充）
+  int32  itemId   = 2; // 什么物品
+  int32  count    = 3; // 数量
+}
