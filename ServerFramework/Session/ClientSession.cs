@@ -16,7 +16,6 @@ public sealed class ClientSession
     public DateTime LastActiveTime { get; internal set; }  // 最后活跃时间，超时清理用
     public bool IsAuthenticated { get; set; }      // 是否已登录（登录门禁由游戏层判断）
     public string? PlayerId { get; set; }          // 登录后绑定的玩家标识（可空：未登录）
-    public string? RoomId { get; set; }            // 我所在房间的房主账号；null=单机/不在任何房间
 
     internal ClientSession(NetworkTransport transport, IPEndPoint remoteEndPoint, long sessionId)
     {

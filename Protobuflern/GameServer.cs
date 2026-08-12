@@ -41,8 +41,6 @@ namespace Protobuflern
             dispatcher.Register((int)PacketType.Action1, new Handle1());
             dispatcher.Register((int)PacketType.Action2, new Handle2());
             dispatcher.Register((int)PacketType.TestBroadcast, new BroadcastTestHandler());
-            dispatcher.Register((int)PacketType.JoinRoom, new JoinRoomHandler());
-            dispatcher.Register((int)PacketType.GetRoomList, new GetRoomListHandler());
         }
 
         // 启动服务器（阻塞，直到进程退出）

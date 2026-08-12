@@ -12,13 +12,10 @@ namespace Protobuflern.Handles
     {
         public override void Handle(ClientSession session, Heartbeat heartbeat)
         {
-            if (session.RoomId == null)
-                return;   // 单机：不广播
-
             if (session.IsAuthenticated && session.PlayerId != null &&
                 PlayerRegistry.TryGetPosition(session.PlayerId, out PlayerFrame pos))
             {
-                RoomRegistry.BroadcastToRoom(session, session, (int)PacketType.SyncPlayerFrame, pos.ToByteArray());
+                SessionManager.Instance.Broadcast(session, (int)PacketType.SyncPlayerFrame, pos.ToByteArray());
             }
         }
     }
