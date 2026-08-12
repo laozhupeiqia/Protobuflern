@@ -43,8 +43,9 @@ namespace Protobuflern.Handles
                         return;
                     }
 
-                    // 旧会话已失联：当成重连/接管，删掉旧会话，继续走正常登录
+                    // 旧会话已失联：当成重连/接管，先清理它所在的房间（房主走了会解散房间并通知剩余成员回单机），再删掉旧会话
                     Console.WriteLine($"[重连] {other} 失联，账号 {player.Id} 由新连接接管");
+                    RoomRegistry.RemovePlayerAndNotify(other.PlayerId!);
                     SessionManager.Instance.Kick(other.RemoteEndPoint);
                 }
 
@@ -65,6 +66,10 @@ namespace Protobuflern.Handles
 
                 // 在线快照（PLAYER_LIST）不在登录时发——那时客户端正好在切场景，角色会建在登录场景里被吞掉。
                 // 改成客户端游戏场景加载完成后、第一次上报位置时再发（见 PlayerFrameHandler）
+
+                // 新玩家上线 = 事件通知：广播刷新所有在线玩家的房间列表（每人排除自己），
+                // 旧玩家能立刻看到新玩家上线，新玩家也能看到旧玩家
+                RoomRegistry.BroadcastRoomListToAll();
             }
             else
             {

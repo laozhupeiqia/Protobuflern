@@ -13,8 +13,11 @@ namespace Protobuflern.Handles
             if (!session.IsAuthenticated || session.PlayerId == null)
                 return;
 
+            if (session.RoomId == null)
+                return;   // 单机：不广播
+
             msg.PlayerId = session.PlayerId;
-            SessionManager.Instance.Broadcast(session, (int)PacketType.SyncDropEvent, msg.ToByteArray());
+            RoomRegistry.BroadcastToRoom(session, session, (int)PacketType.SyncDropEvent, msg.ToByteArray());
         }
     }
 }
