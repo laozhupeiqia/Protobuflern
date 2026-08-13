@@ -41,13 +41,45 @@ namespace Protobuflern
             dispatcher.Register((int)PacketType.Action1, new Handle1());
             dispatcher.Register((int)PacketType.Action2, new Handle2());
             dispatcher.Register((int)PacketType.TestBroadcast, new BroadcastTestHandler());
+            dispatcher.Register((int)PacketType.JoinRoom, new JoinRoomHandler());
+            dispatcher.Register((int)PacketType.GetRoomList, new GetRoomListHandler());
+            dispatcher.Register((int)PacketType.LeaveRoom, new LeaveRoomHandler());
         }
+
+        // 心跳 5s 一次；超过这个秒数没发包视为客户端已关闭/断网，后台定时清理
+        private const int StaleTimeoutSeconds = 30;
 
         // 启动服务器（阻塞，直到进程退出）
         public void Run()
         {
             Console.WriteLine($"UDP 服务器已启动，监听端口 {port} ...");
+
+            // 客户端直接关闭时 UDP 服务器收不到任何通知，只能靠超时回收：
+            // 否则账号/房间会一直残留（在线人数虚高、列表里出现幽灵玩家）
+            using var staleTimer = new System.Threading.Timer(
+                _ => CleanupStaleSessions(), null,
+                TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(5));
+
             server.Run();
+        }
+
+        // 清理超时会话：踢会话 + 清在线表 + 退出房间（房主走了会自动解散房间）
+        private static void CleanupStaleSessions()
+        {
+            DateTime now = DateTime.UtcNow;
+            foreach (ClientSession session in SessionManager.Instance.All.ToList())
+            {
+                if ((now - session.LastActiveTime).TotalSeconds <= StaleTimeoutSeconds)
+                    continue;
+
+                if (session.PlayerId != null)
+                {
+                    RoomRegistry.RemovePlayerAndNotify(session.PlayerId);
+                    PlayerRegistry.Remove(session.PlayerId);
+                }
+                SessionManager.Instance.Kick(session.RemoteEndPoint);
+                Console.WriteLine($"[超时掉线] {session} 超过 {StaleTimeoutSeconds}s 未发包，移除");
+            }
         }
     }
 }

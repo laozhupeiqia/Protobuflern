@@ -39,6 +39,9 @@ enum PacketType {
   PLAYER_FRAME      = 0x07; // 客户端 → 服务器：本机实时状态上报（PlayerFrame：位置+朝向+动作）
   KILL_EVENT        = 0x09; // 客户端 → 服务器：本机击杀上报（KillEvent）
   DROP_EVENT        = 0x0A; // 客户端 → 服务器：本机获得装备上报（DropEvent）
+  JOIN_ROOM         = 0x0B; // 客户端 → 服务器：加入某玩家（房主）的房间（JoinRoomMsg）
+  GET_ROOM_LIST     = 0x0C; // 客户端 → 服务器：请求房间列表快照（空消息）
+  LEAVE_ROOM        = 0x0D; // 客户端 → 服务器：退出联机模式/解散房间（空消息）
   SERVER_REPLY      = 0x80; // 服务器 → 客户端：普通回复（登录成功/失败也走这里，code 区分）
   MAIL              = 0x82; // 服务器 → 客户端：邮件内容
   SYNC_PLAYER_FRAME = 0x83; // 服务器 → 客户端：远端玩家实时状态广播（PlayerFrame）
@@ -46,4 +49,7 @@ enum PacketType {
   PLAYER_LIST       = 0x86; // 服务器 → 客户端：在线玩家快照（PlayerListMsg，登录时发给新人）
   SYNC_KILL_EVENT   = 0x87; // 服务器 → 客户端：远端击杀广播（KillEvent）
   SYNC_DROP_EVENT   = 0x88; // 服务器 → 客户端：远端获得装备广播（DropEvent）
+  ROOM_LIST         = 0x89; // 服务器 → 客户端：房间列表快照（RoomListMsg）
+  JOIN_ROOM_RESULT  = 0x8A; // 服务器 → 客户端：加入房间结果（JoinRoomResult）
+  ROOM_MEMBER_CHANGED = 0x8B; // 服务器 → 客户端：房间成员变动（RoomMemberChangedMsg）
 }

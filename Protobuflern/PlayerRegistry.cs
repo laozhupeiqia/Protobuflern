@@ -16,6 +16,16 @@ namespace Protobuflern
             _states[account] = state;
         }
 
+        // 掉线清理：账号从在线表移除（超时会话/接管/房间解散时调用，避免残留幽灵玩家）
+        public static void Remove(string account)
+        {
+            _states.Remove(account);
+            _positions.Remove(account);
+            // 在线玩家表变了 → 房间列表（从玩家表派生）必须给所有在线玩家刷新，
+            // 否则别人客户端还留着已掉线玩家的"房间按钮"（超时清理这条路径最容易漏）
+            RoomRegistry.BroadcastRoomListToAll();
+        }
+
         public static PlayerState? GetState(string account)
             => _states.TryGetValue(account, out var s) ? s : null;
 
