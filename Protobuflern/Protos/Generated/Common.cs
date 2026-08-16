@@ -27,17 +27,18 @@ namespace Protobuflern.Demo {
             "Cgxjb21tb24ucHJvdG8SBGRlbW8aDHBsYXllci5wcm90byJwCglNc2dSZXN1",
             "bHQSDAoEY29kZRgBIAEoBRIPCgdtZXNzYWdlGAIgASgJEg4KBmRldGFpbBgD",
             "IAEoCRIRCgl0aW1lc3RhbXAYBCABKAMSIQoGcGxheWVyGAUgASgLMhEuZGVt",
-            "by5QbGF5ZXJTdGF0ZSILCglIZWFydGJlYXQqmgMKClBhY2tldFR5cGUSCQoF",
+            "by5QbGF5ZXJTdGF0ZSILCglIZWFydGJlYXQqxAMKClBhY2tldFR5cGUSCQoF",
             "SEVMTE8QABILCgdBQ1RJT04xEAESCwoHQUNUSU9OMhACEgkKBUxPR0lOEAMS",
             "EgoOVEVTVF9CUk9BRENBU1QQBBIMCghSRUdJU1RFUhAFEg0KCUhFQVJUQkVB",
             "VBAGEhAKDFBMQVlFUl9GUkFNRRAHEg4KCktJTExfRVZFTlQQCRIOCgpEUk9Q",
             "X0VWRU5UEAoSDQoJSk9JTl9ST09NEAsSEQoNR0VUX1JPT01fTElTVBAMEg4K",
-            "CkxFQVZFX1JPT00QDRIRCgxTRVJWRVJfUkVQTFkQgAESCQoETUFJTBCCARIW",
-            "ChFTWU5DX1BMQVlFUl9GUkFNRRCDARISCg1QTEFZRVJfSk9JTkVEEIUBEhAK",
-            "C1BMQVlFUl9MSVNUEIYBEhQKD1NZTkNfS0lMTF9FVkVOVBCHARIUCg9TWU5D",
-            "X0RST1BfRVZFTlQQiAESDgoJUk9PTV9MSVNUEIkBEhUKEEpPSU5fUk9PTV9S",
-            "RVNVTFQQigESGAoTUk9PTV9NRU1CRVJfQ0hBTkdFRBCLAUIUqgIRUHJvdG9i",
-            "dWZsZXJuLkRlbW9iBnByb3RvMw=="));
+            "CkxFQVZFX1JPT00QDRIQCgxPQkpFQ1RfRlJBTUUQDhIRCgxTRVJWRVJfUkVQ",
+            "TFkQgAESCQoETUFJTBCCARIWChFTWU5DX1BMQVlFUl9GUkFNRRCDARISCg1Q",
+            "TEFZRVJfSk9JTkVEEIUBEhAKC1BMQVlFUl9MSVNUEIYBEhQKD1NZTkNfS0lM",
+            "TF9FVkVOVBCHARIUCg9TWU5DX0RST1BfRVZFTlQQiAESDgoJUk9PTV9MSVNU",
+            "EIkBEhUKEEpPSU5fUk9PTV9SRVNVTFQQigESGAoTUk9PTV9NRU1CRVJfQ0hB",
+            "TkdFRBCLARIWChFTWU5DX09CSkVDVF9GUkFNRRCMAUIUqgIRUHJvdG9idWZs",
+            "ZXJuLkRlbW9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protobuflern.Demo.PlayerReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuflern.Demo.PacketType), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -108,6 +109,10 @@ namespace Protobuflern.Demo {
     /// </summary>
     [pbr::OriginalName("LEAVE_ROOM")] LeaveRoom = 13,
     /// <summary>
+    /// 客户端 → 服务器：同步物体信息(ObjectFrame)
+    /// </summary>
+    [pbr::OriginalName("OBJECT_FRAME")] ObjectFrame = 14,
+    /// <summary>
     /// 服务器 → 客户端：普通回复（登录成功/失败也走这里，code 区分）
     /// </summary>
     [pbr::OriginalName("SERVER_REPLY")] ServerReply = 128,
@@ -147,6 +152,10 @@ namespace Protobuflern.Demo {
     /// 服务器 → 客户端：房间成员变动（RoomMemberChangedMsg）
     /// </summary>
     [pbr::OriginalName("ROOM_MEMBER_CHANGED")] RoomMemberChanged = 139,
+    /// <summary>
+    /// 服务器 → 客户端：物体移动(ObjectFrame)
+    /// </summary>
+    [pbr::OriginalName("SYNC_OBJECT_FRAME")] SyncObjectFrame = 140,
   }
 
   #endregion

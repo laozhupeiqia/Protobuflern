@@ -44,6 +44,7 @@ namespace Protobuflern
             dispatcher.Register((int)PacketType.JoinRoom, new JoinRoomHandler());
             dispatcher.Register((int)PacketType.GetRoomList, new GetRoomListHandler());
             dispatcher.Register((int)PacketType.LeaveRoom, new LeaveRoomHandler());
+            dispatcher.Register((int)PacketType.ObjectFrame, new ObjectFrameHandler());
         }
 
         // 心跳 5s 一次；超过这个秒数没发包视为客户端已关闭/断网，后台定时清理

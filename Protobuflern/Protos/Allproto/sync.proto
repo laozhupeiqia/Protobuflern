@@ -27,6 +27,17 @@ message PlayerFrame {
   ActionFlag action = 6;   // 当前动作标志：ACTION_NONE=无、FIRE=开火
 }
 
+//物体同步信息
+message ObjectFrame {
+    int32 objectid = 1;
+    bool is_show = 2;           // 是否显示
+    bool has_animation = 3;     // 是否拥有动画
+    float x = 4;               // X坐标
+    float y = 5;               // Y坐标
+    float z = 6;               // Z坐标
+    float yaw = 7;             // 水平朝向（度）
+}
+
 // 加入同步：服务器广播给在场的人（新人第一个状态包到达时触发），接收方创建他的远端角色
 message PlayerJoinMsg {
   PlayerState player = 1; // 角色数据（昵称/分数，以后加等级/皮肤/宠物都往这里扩）

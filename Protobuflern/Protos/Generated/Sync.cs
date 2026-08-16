@@ -27,15 +27,19 @@ namespace Protobuflern.Demo {
             "CgpzeW5jLnByb3RvEgRkZW1vGgxwbGF5ZXIucHJvdG8ibwoLUGxheWVyRnJh",
             "bWUSEAoIcGxheWVySWQYASABKAkSCQoBeBgCIAEoAhIJCgF5GAMgASgCEgkK",
             "AXoYBCABKAISCwoDeWF3GAUgASgCEiAKBmFjdGlvbhgGIAEoDjIQLmRlbW8u",
-            "QWN0aW9uRmxhZyJUCg1QbGF5ZXJKb2luTXNnEiEKBnBsYXllchgBIAEoCzIR",
-            "LmRlbW8uUGxheWVyU3RhdGUSIAoFZnJhbWUYAiABKAsyES5kZW1vLlBsYXll",
-            "ckZyYW1lIjUKDVBsYXllckxpc3RNc2cSJAoHcGxheWVycxgBIAMoCzITLmRl",
-            "bW8uUGxheWVySm9pbk1zZyonCgpBY3Rpb25GbGFnEg8KC0FDVElPTl9OT05F",
-            "EAASCAoERklSRRABQhSqAhFQcm90b2J1Zmxlcm4uRGVtb2IGcHJvdG8z"));
+            "QWN0aW9uRmxhZyJ1CgtPYmplY3RGcmFtZRIQCghvYmplY3RpZBgBIAEoBRIP",
+            "Cgdpc19zaG93GAIgASgIEhUKDWhhc19hbmltYXRpb24YAyABKAgSCQoBeBgE",
+            "IAEoAhIJCgF5GAUgASgCEgkKAXoYBiABKAISCwoDeWF3GAcgASgCIlQKDVBs",
+            "YXllckpvaW5Nc2cSIQoGcGxheWVyGAEgASgLMhEuZGVtby5QbGF5ZXJTdGF0",
+            "ZRIgCgVmcmFtZRgCIAEoCzIRLmRlbW8uUGxheWVyRnJhbWUiNQoNUGxheWVy",
+            "TGlzdE1zZxIkCgdwbGF5ZXJzGAEgAygLMhMuZGVtby5QbGF5ZXJKb2luTXNn",
+            "KicKCkFjdGlvbkZsYWcSDwoLQUNUSU9OX05PTkUQABIICgRGSVJFEAFCFKoC",
+            "EVByb3RvYnVmbGVybi5EZW1vYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Protobuflern.Demo.PlayerReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Protobuflern.Demo.ActionFlag), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuflern.Demo.PlayerFrame), global::Protobuflern.Demo.PlayerFrame.Parser, new[]{ "PlayerId", "X", "Y", "Z", "Yaw", "Action" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Protobuflern.Demo.ObjectFrame), global::Protobuflern.Demo.ObjectFrame.Parser, new[]{ "Objectid", "IsShow", "HasAnimation", "X", "Y", "Z", "Yaw" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuflern.Demo.PlayerJoinMsg), global::Protobuflern.Demo.PlayerJoinMsg.Parser, new[]{ "Player", "Frame" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Protobuflern.Demo.PlayerListMsg), global::Protobuflern.Demo.PlayerListMsg.Parser, new[]{ "Players" }, null, null, null, null)
           }));
@@ -462,6 +466,447 @@ namespace Protobuflern.Demo {
   }
 
   /// <summary>
+  ///物体同步信息
+  /// </summary>
+  [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
+  public sealed partial class ObjectFrame : pb::IMessage<ObjectFrame>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<ObjectFrame> _parser = new pb::MessageParser<ObjectFrame>(() => new ObjectFrame());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<ObjectFrame> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::Protobuflern.Demo.SyncReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectFrame() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectFrame(ObjectFrame other) : this() {
+      objectid_ = other.objectid_;
+      isShow_ = other.isShow_;
+      hasAnimation_ = other.hasAnimation_;
+      x_ = other.x_;
+      y_ = other.y_;
+      z_ = other.z_;
+      yaw_ = other.yaw_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ObjectFrame Clone() {
+      return new ObjectFrame(this);
+    }
+
+    /// <summary>Field number for the "objectid" field.</summary>
+    public const int ObjectidFieldNumber = 1;
+    private int objectid_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int Objectid {
+      get { return objectid_; }
+      set {
+        objectid_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "is_show" field.</summary>
+    public const int IsShowFieldNumber = 2;
+    private bool isShow_;
+    /// <summary>
+    /// 是否显示
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool IsShow {
+      get { return isShow_; }
+      set {
+        isShow_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "has_animation" field.</summary>
+    public const int HasAnimationFieldNumber = 3;
+    private bool hasAnimation_;
+    /// <summary>
+    /// 是否拥有动画
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasAnimation {
+      get { return hasAnimation_; }
+      set {
+        hasAnimation_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "x" field.</summary>
+    public const int XFieldNumber = 4;
+    private float x_;
+    /// <summary>
+    /// X坐标
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float X {
+      get { return x_; }
+      set {
+        x_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "y" field.</summary>
+    public const int YFieldNumber = 5;
+    private float y_;
+    /// <summary>
+    /// Y坐标
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float Y {
+      get { return y_; }
+      set {
+        y_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "z" field.</summary>
+    public const int ZFieldNumber = 6;
+    private float z_;
+    /// <summary>
+    /// Z坐标
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float Z {
+      get { return z_; }
+      set {
+        z_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "yaw" field.</summary>
+    public const int YawFieldNumber = 7;
+    private float yaw_;
+    /// <summary>
+    /// 水平朝向（度）
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public float Yaw {
+      get { return yaw_; }
+      set {
+        yaw_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as ObjectFrame);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(ObjectFrame other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Objectid != other.Objectid) return false;
+      if (IsShow != other.IsShow) return false;
+      if (HasAnimation != other.HasAnimation) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(X, other.X)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Z, other.Z)) return false;
+      if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Yaw, other.Yaw)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Objectid != 0) hash ^= Objectid.GetHashCode();
+      if (IsShow != false) hash ^= IsShow.GetHashCode();
+      if (HasAnimation != false) hash ^= HasAnimation.GetHashCode();
+      if (X != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(X);
+      if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
+      if (Z != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Z);
+      if (Yaw != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Yaw);
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (Objectid != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Objectid);
+      }
+      if (IsShow != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(IsShow);
+      }
+      if (HasAnimation != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(HasAnimation);
+      }
+      if (X != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(X);
+      }
+      if (Y != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(Y);
+      }
+      if (Z != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(Z);
+      }
+      if (Yaw != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(Yaw);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Objectid != 0) {
+        output.WriteRawTag(8);
+        output.WriteInt32(Objectid);
+      }
+      if (IsShow != false) {
+        output.WriteRawTag(16);
+        output.WriteBool(IsShow);
+      }
+      if (HasAnimation != false) {
+        output.WriteRawTag(24);
+        output.WriteBool(HasAnimation);
+      }
+      if (X != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(X);
+      }
+      if (Y != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(Y);
+      }
+      if (Z != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(Z);
+      }
+      if (Yaw != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(Yaw);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (Objectid != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Objectid);
+      }
+      if (IsShow != false) {
+        size += 1 + 1;
+      }
+      if (HasAnimation != false) {
+        size += 1 + 1;
+      }
+      if (X != 0F) {
+        size += 1 + 4;
+      }
+      if (Y != 0F) {
+        size += 1 + 4;
+      }
+      if (Z != 0F) {
+        size += 1 + 4;
+      }
+      if (Yaw != 0F) {
+        size += 1 + 4;
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(ObjectFrame other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Objectid != 0) {
+        Objectid = other.Objectid;
+      }
+      if (other.IsShow != false) {
+        IsShow = other.IsShow;
+      }
+      if (other.HasAnimation != false) {
+        HasAnimation = other.HasAnimation;
+      }
+      if (other.X != 0F) {
+        X = other.X;
+      }
+      if (other.Y != 0F) {
+        Y = other.Y;
+      }
+      if (other.Z != 0F) {
+        Z = other.Z;
+      }
+      if (other.Yaw != 0F) {
+        Yaw = other.Yaw;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 8: {
+            Objectid = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            IsShow = input.ReadBool();
+            break;
+          }
+          case 24: {
+            HasAnimation = input.ReadBool();
+            break;
+          }
+          case 37: {
+            X = input.ReadFloat();
+            break;
+          }
+          case 45: {
+            Y = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            Z = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            Yaw = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+      if ((tag & 7) == 4) {
+        // Abort on any end group tag.
+        return;
+      }
+      switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 8: {
+            Objectid = input.ReadInt32();
+            break;
+          }
+          case 16: {
+            IsShow = input.ReadBool();
+            break;
+          }
+          case 24: {
+            HasAnimation = input.ReadBool();
+            break;
+          }
+          case 37: {
+            X = input.ReadFloat();
+            break;
+          }
+          case 45: {
+            Y = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            Z = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            Yaw = input.ReadFloat();
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  /// <summary>
   /// 加入同步：服务器广播给在场的人（新人第一个状态包到达时触发），接收方创建他的远端角色
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]
@@ -479,7 +924,7 @@ namespace Protobuflern.Demo {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuflern.Demo.SyncReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Protobuflern.Demo.SyncReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -741,7 +1186,7 @@ namespace Protobuflern.Demo {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Protobuflern.Demo.SyncReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Protobuflern.Demo.SyncReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

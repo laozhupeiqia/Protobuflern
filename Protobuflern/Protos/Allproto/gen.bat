@@ -10,6 +10,7 @@ set "PROTOC=%USERPROFILE%\.nuget\packages\grpc.tools\2.83.0\tools\windows_x64\pr
 if not exist "%PROTOC%" (
     echo [ERROR] protoc.exe not found: %PROTOC%
     echo Build the server project once so Grpc.Tools downloads it, then rerun this.
+    pause
     exit /b 1
 )
 
@@ -18,7 +19,12 @@ if not exist "..\Generated" mkdir "..\Generated"
 for %%f in (*.proto) do (
     echo Generating %%f ...
     "%PROTOC%" --csharp_out=..\Generated "%%f"
-    if errorlevel 1 exit /b 1
+    if errorlevel 1 (
+        echo [ERROR] Failed to generate %%f - see the protoc error above.
+        echo Fix the .proto syntax, then rerun this batch.
+        pause
+        exit /b 1
+    )
 )
 
 echo Done. Output is in Protos\Generated
